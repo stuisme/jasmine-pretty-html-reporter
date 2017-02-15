@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="jasmineResults">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Title</title>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.1.3/angular-material.min.css">
+    <style>
+        .status {
+            width: 85px;
+            padding: 7px;
+            border-radius: 3px;
+            text-align: center;
+        }
+
+        .failed .status {
+            background-color: rgb(255, 87, 34);
+        }
+
+        .passed .status {
+            background-color: rgb(76, 175, 80);
+        }
+
+        .pending .status {
+            background-color: rgb(255, 255, 0);
+        }
+    </style>
+</head>
+<body ng-controller="ResultsCtrl">
+
+<div ng-cloak layout="column">
+    <md-toolbar ng-class="{'md-warn': results.counts.failed}">
+        <div class="md-toolbar-tools">
+            <h2 flex md-truncate>Results</h2>
+            <h5>
+                {{results.counts | json}}
+            </h5>
+        </div>
+    </md-toolbar>
+    <md-content flex>
+        <md-list>
+            <md-list-item ng-class="result.status" ng-repeat="result in results.sequence" ng-click="showDetail(result)">
+                <div layout="row" flex layout-padding>
+                    <div flex="none">
+                        <div class="status">{{result.status}}</div>
+                    </div>
+                    <div flex>
+                        <span>{{result.prefix}}</span><strong>{{result.description}}</strong>
+                        <div ng-if="result.pendingReason != ''">
+                            <small>{{result.pendingReason}}</small>
+                        </div>
+                        <div ng-if="result.suspectLine">
+                            <small>{{result.suspectLine}}</small>
+                        </div>
+                    </div>
+                    <div flex="none" style="width: 100px">
+                        <small>{{result.duration}} ms</small>
+                    </div>
+                </div>
+                <md-divider inset></md-divider>
+            </md-list-item>
+        </md-list>
+    </md-content>
+</div>
+
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.1.3/angular-material.js"></script>
+
+<script>
+  angular.module('jasmineResults', ['ngMaterial']).config(function ($mdThemingProvider) {
+    $mdThemingProvider.theme('default').primaryPalette('green').accentPalette('yellow');
+  }).controller('ResultsCtrl', function ($http, $scope, $mdDialog) {
+
+    var classes = {
+      'passed': 'md-primary',
+      'pending': 'md-accent',
+      'failed': 'md-warn'
+    };
+
+    $scope.showDetail = function (item) {
+      $scope.activeItem = item;
+      $mdDialog.show({
+        controller: function ($scope) {
+        },
+        scope: $scope.$new(false, $scope),
+        templateUrl: 'dialog.html',
+        parent: angular.element(document.body),
+        clickOutsideToClose: true,
+      })
+    };
+
+    $http.get('results.json', {json: true}).then(function (response) {
+      $scope.results = response.data;
+      $scope.results.sequence.forEach(function (item) {
+        item.prefix = item.fullName.replace(item.description, '');
+        item.duration = new Date(item.stoped) - new Date(item.started);
+        item.cssClass = classes[item.status];
+        if (item.status === 'failed') {
+          item.failedExpectations[0].stack.split('\n').some(function (line) {
+            var match = line.indexOf('Error:') === -1 && line.indexOf('node_modules') === -1;
+
+            if (match) {
+              item.suspectLine = line;
+            }
+
+            return match;
+          })
+        }
+      });
+
+    });
+  });
+</script>
+
+<script type="text/ng-template" id="dialog.html">
+    <md-dialog aria-label="">
+        <md-toolbar ng-class="activeItem.cssClass">
+            <div class="md-toolbar-tools">Test Information</div>
+        </md-toolbar>
+        <md-dialog-content>
+            <md-subheader>Failed Expectations</md-subheader>
+            <pre ng-repeat="failure in activeItem.failedExpectations">{{failure | json}}</pre>
+            <md-subheader>Passed Expectations</md-subheader>
+            <pre ng-repeat="pass in activeItem.passedExpectations">{{pass | json}}</pre>
+        </md-dialog-content>
+    </md-dialog>
+</script>
+
+</body>
+</html>
