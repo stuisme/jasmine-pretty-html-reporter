@@ -52,8 +52,8 @@ class Reporter {
 
     let templatePath = path.join(__dirname, 'report.html');
     let destination = path.join(this.options.path, 'report.html');
+    let fileContents = fs.readFileSync(templatePath).toString();
 
-    var fileContents = fs.readFileSync(templatePath).toString();
     fs.writeFileSync(destination, fileContents, 'utf8');
     fs.writeFileSync(path.resolve(this.options.path, 'results.json'), JSON.stringify(logEntry, null, 4), 'utf8');
   };
