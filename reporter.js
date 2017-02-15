@@ -1,3 +1,5 @@
+'use strict';
+
 const fs = require('fs');
 const path = require('path');
 
@@ -48,8 +50,13 @@ class Reporter {
       counts: this._counts
     };
 
-    fs.writeFileSync(path.join(this.options.path, 'results.json'), JSON.stringify(logEntry, null, 4), 'utf8');
-    fs.createReadStream(path.join(__dirname, 'report.html')).pipe(fs.createWriteStream(path.join(this.options.path, 'report.html')));
+    let template = path.resolve(__dirname, 'report.html');
+    let destination = path.join(this.options.path, 'report.html');
+
+    console.log(template);
+    console.log(destination);
+    fs.writeFileSync(path.resolve(this.options.path, 'results.json'), JSON.stringify(logEntry, null, 4), 'utf8');
+    fs.createReadStream(template).pipe(fs.createWriteStream());
   };
 }
 
