@@ -100,7 +100,6 @@
         item.duration = new Date(item.stoped) - new Date(item.started);
         item.cssClass = classes[item.status];
         if (item.status === 'failed') {
-          console.log(item.failedExpectations[0]);
           item.failedExpectations[0].stack.split('\n').some(function (line) {
             var match = line.indexOf('Error:') === -1 && line.indexOf('node_modules') === -1;
 
