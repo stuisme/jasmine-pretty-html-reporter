@@ -1,5 +1,19 @@
 {
   "name": "jasmine-pretty-html-reporter",
+  "description": "an easy to use html page for looking at jasmine test results",
+  "author": "stuisme",
   "main": "index.js",
-  "version": "0.0.1"
+  "version": "0.0.1",
+  "keywords": ["jasmine", "pretty", "html", "reporter"],
+  "repository":  {
+    "type" : "git",
+    "url" : "https://github.com/stuisme/jasmine-pretty-html-reporter.git"
+  },
+  "issues": {
+    "url": "https://github.com/stuisme/jasmine-pretty-html-reporter/issues"
+  },
+  "peerDependencies": {
+    "jasmine": "^2.4.1"
+  },
+  "license": "MIT"
 }

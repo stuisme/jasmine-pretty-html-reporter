@@ -73,7 +73,7 @@
 <script>
     angular.module('jasmineResults', ['ngMaterial']).config(function ($mdThemingProvider) {
         $mdThemingProvider.theme('default').primaryPalette('green').accentPalette('yellow');
-    }).controller('ResultsCtrl', function ($http, $scope, $mdDialog, results) {
+    }).controller('ResultsCtrl', function ($scope, $mdDialog, results) {
 
         var classes = {
             'passed': 'md-primary',
@@ -84,7 +84,7 @@
         $scope.showDetail = function (item) {
             $scope.activeItem = item;
             $mdDialog.show({
-                controller: function ($scope) {
+                controller: function () {
                 },
                 scope: $scope.$new(false, $scope),
                 templateUrl: 'dialog.html',
