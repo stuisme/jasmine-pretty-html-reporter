@@ -71,49 +71,48 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.1.3/angular-material.js"></script>
 
 <script>
-  angular.module('jasmineResults', ['ngMaterial']).config(function ($mdThemingProvider) {
-    $mdThemingProvider.theme('default').primaryPalette('green').accentPalette('yellow');
-  }).controller('ResultsCtrl', function ($http, $scope, $mdDialog) {
+    angular.module('jasmineResults', ['ngMaterial']).config(function ($mdThemingProvider) {
+        $mdThemingProvider.theme('default').primaryPalette('green').accentPalette('yellow');
+    }).controller('ResultsCtrl', function ($http, $scope, $mdDialog, results) {
 
-    var classes = {
-      'passed': 'md-primary',
-      'pending': 'md-accent',
-      'failed': 'md-warn'
-    };
+        var classes = {
+            'passed': 'md-primary',
+            'pending': 'md-accent',
+            'failed': 'md-warn'
+        };
 
-    $scope.showDetail = function (item) {
-      $scope.activeItem = item;
-      $mdDialog.show({
-        controller: function ($scope) {
-        },
-        scope: $scope.$new(false, $scope),
-        templateUrl: 'dialog.html',
-        parent: angular.element(document.body),
-        clickOutsideToClose: true
-      })
-    };
+        $scope.showDetail = function (item) {
+            $scope.activeItem = item;
+            $mdDialog.show({
+                controller: function ($scope) {
+                },
+                scope: $scope.$new(false, $scope),
+                templateUrl: 'dialog.html',
+                parent: angular.element(document.body),
+                clickOutsideToClose: true
+            })
+        };
 
-    $http.get('results.json', {json: true}).then(function (response) {
-      $scope.results = response.data;
-      $scope.results.sequence.forEach(function (item) {
-        item.prefix = item.fullName.replace(item.description, '');
-        item.duration = new Date(item.stoped) - new Date(item.started);
-        item.cssClass = classes[item.status];
-        if (item.status === 'failed') {
-          item.failedExpectations[0].stack.split('\n').some(function (line) {
-            var match = line.indexOf('Error:') === -1 && line.indexOf('node_modules') === -1;
+        $scope.results = results;
 
-            if (match) {
-              item.suspectLine = line;
+        //transform results
+        $scope.results.sequence.forEach(function (item) {
+            item.prefix = item.fullName.replace(item.description, '');
+            item.duration = new Date(item.stoped) - new Date(item.started);
+            item.cssClass = classes[item.status];
+            if (item.status === 'failed') {
+                item.failedExpectations[0].stack.split('\n').some(function (line) {
+                    var match = line.indexOf('Error:') === -1 && line.indexOf('node_modules') === -1;
+
+                    if (match) {
+                        item.suspectLine = line;
+                    }
+
+                    return match;
+                })
             }
-
-            return match;
-          })
-        }
-      });
-
-    });
-  });
+        });
+    }).constant('results', '<Results Replacement>');
 </script>
 
 <script type="text/ng-template" id="dialog.html">
