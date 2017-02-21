@@ -3,8 +3,11 @@
 const fs = require('fs');
 const path = require('path');
 
-class Reporter {
+//path setup
+const templatePath = path.join(__dirname, 'report.html');
+const fileContents = fs.readFileSync(templatePath).toString();
 
+class Reporter {
     constructor(options) {
         this.options = options;
         this._sequence = [];
@@ -14,6 +17,7 @@ class Reporter {
             fs.mkdirSync(this.options.path);
         }
 
+        this.destination = path.join(this.options.path, 'report.html');
     }
 
     nowString() {
@@ -21,16 +25,13 @@ class Reporter {
     }
 
     jasmineStarted(suiteInfo) {
-        //this._sequence.push(suiteInfo);
     };
 
     suiteStarted(result) {
-        //this._sequence.push(result);
     };
 
     specStarted(result) {
         this._start = this.nowString();
-        //this._sequence.push(result);
     };
 
     specDone(result) {
@@ -38,25 +39,20 @@ class Reporter {
         result.started = this._start;
         this._sequence.push(result);
         this._counts[result.status] = (this._counts[result.status] || 0) + 1;
-    };
 
-    suiteDone(result) {
-        //this._sequence.push(result);
-    };
-
-    jasmineDone() {
         let logEntry = {
             sequence: this._sequence,
             counts: this._counts
         };
 
-        let templatePath = path.join(__dirname, 'report.html');
-        let destination = path.join(this.options.path, 'report.html');
-        let fileContents = fs.readFileSync(templatePath).toString();
+        let results = fileContents.replace('\'<Results Replacement>\'', JSON.stringify(logEntry, null, 4));
+        fs.writeFileSync(this.destination, results, 'utf8');
+    };
 
-        fileContents = fileContents.replace('\'<Results Replacement>\'', JSON.stringify(logEntry, null, 4));
+    suiteDone(result) {
+    };
 
-        fs.writeFileSync(destination, fileContents, 'utf8');
+    jasmineDone() {
     };
 }
 
