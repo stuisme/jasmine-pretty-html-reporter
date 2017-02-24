@@ -3,11 +3,16 @@
   "description": "an easy to use html page for looking at jasmine test results",
   "author": "stuisme",
   "main": "index.js",
-  "version": "0.0.2",
-  "keywords": ["jasmine", "pretty", "html", "reporter"],
-  "repository":  {
-    "type" : "git",
-    "url" : "https://github.com/stuisme/jasmine-pretty-html-reporter.git"
+  "version": "0.1.3161",
+  "keywords": [
+    "jasmine",
+    "pretty",
+    "html",
+    "reporter"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stuisme/jasmine-pretty-html-reporter.git"
   },
   "issues": {
     "url": "https://github.com/stuisme/jasmine-pretty-html-reporter/issues"

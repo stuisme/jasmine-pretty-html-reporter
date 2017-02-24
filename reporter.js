@@ -7,7 +7,9 @@ const path = require('path');
 const templatePath = path.join(__dirname, 'report.html');
 const fileContents = fs.readFileSync(templatePath).toString();
 
+
 class Reporter {
+
     constructor(options) {
         this.options = options;
         this._sequence = [];
