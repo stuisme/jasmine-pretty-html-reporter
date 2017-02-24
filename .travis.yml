@@ -15,6 +15,7 @@ script:
   - npm version $NEW_VERSION
 before_deploy:
   - export GIT_TAG=v$NEW_VERSION
+  - git pull --tags
   - git push https://$TAGPERM@github.com/stuisme/jasmine-pretty-html-reporter master
   - git tag $GIT_TAG -a -m "[CHORE] Tag build $TRAVIS_BUILD_NUMBER"
   - git push -q https://$TAGPERM@github.com/stuisme/jasmine-pretty-html-reporter --tags
