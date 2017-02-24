@@ -10,6 +10,7 @@ before_script:
   - export NEW_VERSION=0.1.$TRAVIS_BUILD_NUMBER
   - git config --global user.email "builds@travis-ci.com"
   - git config --global user.name "Travis CI"
+script:
   - npm version $NEW_VERSION
 before_deploy:
   - export GIT_TAG=v$NEW_VERSION
