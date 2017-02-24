@@ -1,8 +1,14 @@
 language: node_js
 node_js:
   - "node"
+branches:
+  only:
+    - master
+git:
+  branch: master
+before_script:
+  -
 before_deploy:
-  on: master
   - git config --global user.email "builds@travis-ci.com"
   - git config --global user.name "Travis CI"
   - export GIT_TAG=v0.1.$TRAVIS_BUILD_NUMBER
@@ -14,6 +20,6 @@ deploy:
   email: stuisme@gmail.com
   api_key: $NPM_TOKEN
   on:
-    tags: true
-    repo: stuisme/jasmine-pretty-html-reporter
+    tags: false
+    all_branches: true
 
