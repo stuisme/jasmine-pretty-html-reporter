@@ -1,0 +1,8 @@
+deploy:
+  provider: npm
+  email: stuisme@gmail.com
+  api_key:
+    secure: Z5h2s3iHGx68wk7fd7jSzao19eQIePEhFKwduD8z6E+JO15LE7qw+Kcw6S3E25y3shZh7KKce51Hk+CaSTLcysGwuZTrYQiiFvKZtPtKHFrXgpHBrTWmzzPhxBG7/3DE0Y140nCCQq1jRWU9Q1VsAAd1Tq8yntkHMCGcCZZgb8XHbucIbu9IqpKTe+8t8Pi5ft9gG/E1XCv1A34idO3vQvO24oIznYUjuchKInDwuCF4ZXaudjHM4FsqRXV1jG/GU7L6ahlK/n8HrS8pi5MqS4CJwdlw+Xix4WcyosYC3fsAzyr9qr+IcGyCv4Wi4MKvtL4TWpsPFVigM789AXEmd0E/Vid6KsgrXUSabJyYLr3Ni3+xXklTay3U6pwl23NewZmCMsRJA2cYCD8+nf+kTkh3tW3e7xPfSLnHAz+IFbOxQRCl3YXdI/di5IoE3NUpFyVqkHFMS77r6OX8/PAVLTWBHJ2oKtaESlV7DmeQ0Z8nXfrkcd6EtLODs+QfyICMQcycBKVX9n8Ks0RpfR4NLNDYdvYGb1nokiHebEgSO/uS5wDVCAHmamGNDbEI1+RdFGe3+eRQNd2gyHEdnpBQ2Ih4/c2WIJFGI7sHftTivbFtlfVJDkDxiQUkCnzpo2QAA3f2IkpeHy6+vAcFeycmmm2X+BY/OfM2MJ4fP7wNcgw=
+  on:
+    tags: true
+    repo: stuisme/jasmine-pretty-html-reporter
