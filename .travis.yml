@@ -7,7 +7,7 @@ branches:
 git:
   branch: master
 before_script:
-  - export NEW_VERSION = 0.1.$TRAVIS_BUILD_NUMBER
+  - export NEW_VERSION=0.1.$TRAVIS_BUILD_NUMBER
   - npm version $NEW_VERSION
 before_deploy:
   - git config --global user.email "builds@travis-ci.com"
