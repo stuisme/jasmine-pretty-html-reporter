@@ -10,12 +10,11 @@ before_script:
   - export NEW_VERSION=0.1.$TRAVIS_BUILD_NUMBER
   - git config --global user.email "builds@travis-ci.com"
   - git config --global user.name "Travis CI"
+  - git checkout master
 script:
   - npm version $NEW_VERSION
 before_deploy:
   - export GIT_TAG=v$NEW_VERSION
-  - git add package.json
-  - git commit -m "[CHORE] versioning - $TRAVIS_BUILD_NUMBER [skip ci]"
   - git push origin master
   - git tag $GIT_TAG -a -m "[CHORE] Tag build $TRAVIS_BUILD_NUMBER"
   - git push -q https://$TAGPERM@github.com/stuisme/jasmine-pretty-html-reporter --tags
