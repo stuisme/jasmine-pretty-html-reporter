@@ -3,7 +3,7 @@
   "description": "an easy to use html page for looking at jasmine test results",
   "author": "stuisme",
   "main": "index.js",
-  "version": "0.1.1940",
+  "version": "0.1.1941",
   "keywords": [
     "jasmine",
     "pretty",
