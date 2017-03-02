@@ -27,4 +27,3 @@ deploy:
     tags: false
     branches:
       - master
-
