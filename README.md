@@ -1,4 +1,8 @@
-# jasmine pretty html reporter [![Build Status](https://travis-ci.org/stuisme/jasmine-pretty-html-reporter.svg?branch=master)](https://travis-ci.org/stuisme/jasmine-pretty-html-reporter)
+# jasmine pretty html reporter 
+[![Build Status](https://travis-ci.org/stuisme/jasmine-pretty-html-reporter.svg?branch=master)](https://travis-ci.org/stuisme/jasmine-pretty-html-reporter)
+[![Latest Version](https://img.shields.io/github/tag/stuisme/jasmine-pretty-html-reporter.svg)](https://github.com/stuisme/jasmine-pretty-html-reporter)
+[![NPM Version](https://img.shields.io/npm/v/jasmine-pretty-html-reporter.svg)](https://npmjs.org/package/jasmine-pretty-html-reporter)
+[![NPM Monthly Downloads](https://img.shields.io/npm/dm/jasmine-pretty-html-reporter.svg)](https://npmjs.org/package/jasmine-pretty-html-reporter)
 
 ```
 npm i jasmine-pretty-html-reporter --save-dev
