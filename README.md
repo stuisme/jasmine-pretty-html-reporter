@@ -5,6 +5,10 @@ npm i jasmine-pretty-html-reporter --save-dev
 ```
 _NOTE: jasmine is set as a peer dependency_
 
+### Check out the samples
+
+https://stuisme.github.io/jasmine-pretty-html-reporter/
+
 
 ### Basic Setup
 
