@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jasmine-pretty-html-reporter</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+    <style>
+        #intro-banner {
+            background-color: #ee6e73;
+        }
+    </style>
+</head>
+<body>
+
+    <main>
+        <section id="intro-banner">
+            <div class="container">
+                <div class="row">
+                    <div class="col s12 m12">
+                        <h1 class="header center-on-small-only">jasmine-pretty-html-reporter</h1>
+                        <h4 class="light red-text text-lighten-4 center-on-small-only">An easy to use jasmine html report for your tests.</h4>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+        <section>
+            <div class="container">
+                <div class="row">
+                    <div class="cols s12">
+                        <h2>Status</h2>
+                        <a href="http://travis-ci.org/stuisme/jasmine-pretty-html-reporter" title="Check this project's build status on TravisCI"><img src="https://travis-ci.org/stuisme/jasmine-pretty-html-reporter.svg?branch=master" /></a>
+                        <a href="https://npmjs.org/package/jasmine-pretty-html-reporter" title="View this project on NPM"><img src="https://img.shields.io/npm/v/jasmine-pretty-html-reporter.svg" alt="NPM version" /></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section>
+            <div class="container">
+                <div class="row">
+                    <div class="col s12">
+                        <h2>What does it do?</h2>
+                        <p>It provides a simple way to look at jasmine test results</p>
+                        <h4>Features</h4>
+                        <ul>
+                            <li>Pass/Fail at a glance via navbar highlighting</li>
+                            <li>Bolds it('segment') within describe sentence</li>
+                            <li>Adds timing in milliseconds to output</li>
+                            <li>Long running test support, report can be refreshed during test runs</li>
+                        </ul>
+                        <h4>View Samples</h4>
+                        <a href="sample-reports/report-passing.html">Successful test run sample</a>
+                        <br />
+                        <a href="sample-reports/report-fail.html">Failures during test run sample</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12">
+                        <img src="img/passing.png" style="width:100%" />
+                    </div>
+                    <div class="col s12">
+                        <img src="img/failing.png" style="width:100%" />
+                    </div>
+                    <div class="col s12">
+                        <img src="img/failing-detail.png" style="width:100%" />
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="jasmineResults">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Title</title>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.1.3/angular-material.min.css">
+    <style>
+        .status {
+            width: 85px;
+            padding: 7px;
+            border-radius: 3px;
+            text-align: center;
+        }
+
+        .failed .status {
+            background-color: rgb(255, 87, 34);
+        }
+
+        .passed .status {
+            background-color: rgb(76, 175, 80);
+        }
+
+        .pending .status {
+            background-color: rgb(255, 255, 0);
+        }
+    </style>
+</head>
+<body ng-controller="ResultsCtrl">
+
+<div ng-cloak layout="column">
+    <md-toolbar ng-class="{'md-warn': results.counts.failed}">
+        <div class="md-toolbar-tools">
+            <h2 flex md-truncate>Results</h2>
+            <h5>
+                {{results.counts | json}}
+            </h5>
+        </div>
+    </md-toolbar>
+    <md-content flex>
+        <md-list>
+            <md-list-item ng-class="result.status" ng-repeat="result in results.sequence" ng-click="showDetail(result)">
+                <div layout="row" flex layout-padding>
+                    <div flex="none">
+                        <div class="status">{{result.status}}</div>
+                    </div>
+                    <div flex>
+                        <span>{{result.prefix}}</span><strong>{{result.description}}</strong>
+                        <div ng-if="result.pendingReason != ''">
+                            <small>{{result.pendingReason}}</small>
+                        </div>
+                        <div ng-if="result.suspectLine">
+                            <small>{{result.suspectLine}}</small>
+                        </div>
+                    </div>
+                    <div flex="none" style="width: 100px">
+                        <small>{{result.duration}} ms</small>
+                    </div>
+                </div>
+                <md-divider inset></md-divider>
+            </md-list-item>
+        </md-list>
+    </md-content>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.1.3/angular-material.js"></script>
+
+<script>
+    angular.module('jasmineResults', ['ngMaterial']).config(function ($mdThemingProvider) {
+        $mdThemingProvider.theme('default').primaryPalette('green').accentPalette('yellow');
+    }).controller('ResultsCtrl', function ($scope, $mdDialog, results) {
+
+        var classes = {
+            'passed': 'md-primary',
+            'pending': 'md-accent',
+            'failed': 'md-warn'
+        };
+
+        $scope.showDetail = function (item) {
+            $scope.activeItem = item;
+            $mdDialog.show({
+                controller: function () {
+                },
+                scope: $scope.$new(false, $scope),
+                templateUrl: 'dialog.html',
+                parent: angular.element(document.body),
+                clickOutsideToClose: true
+            })
+        };
+
+        $scope.results = results;
+
+        //transform results
+        $scope.results.sequence.forEach(function (item) {
+            item.prefix = item.fullName.replace(item.description, '');
+            item.duration = new Date(item.stoped) - new Date(item.started);
+            item.cssClass = classes[item.status];
+            if (item.status === 'failed') {
+                item.failedExpectations[0].stack.split('\n').some(function (line) {
+                    var match = line.indexOf('Error:') === -1 && line.indexOf('node_modules') === -1;
+
+                    if (match) {
+                        item.suspectLine = line;
+                    }
+
+                    return match;
+                })
+            }
+        });
+    }).constant('results', {
+    "sequence": [
+        {
+            "id": "spec0",
+            "description": "should pass",
+            "fullName": "Samples should pass",
+            "failedExpectations": [],
+            "passedExpectations": [
+                {
+                    "matcherName": "toBe",
+                    "message": "Passed.",
+                    "stack": "",
+                    "passed": true
+                },
+                {
+                    "matcherName": "toBe",
+                    "message": "Passed.",
+                    "stack": "",
+                    "passed": true
+                },
+                {
+                    "matcherName": "toBe",
+                    "message": "Passed.",
+                    "stack": "",
+                    "passed": true
+                },
+                {
+                    "matcherName": "toBe",
+                    "message": "Passed.",
+                    "stack": "",
+                    "passed": true
+                }
+            ],
+            "pendingReason": "",
+            "status": "passed",
+            "stoped": "2017-03-04T05:04:30.299Z",
+            "started": "2017-03-04T05:04:30.297Z"
+        },
+        {
+            "id": "spec1",
+            "description": "should pass",
+            "fullName": "Samples and sub samples should pass",
+            "failedExpectations": [],
+            "passedExpectations": [
+                {
+                    "matcherName": "toBe",
+                    "message": "Passed.",
+                    "stack": "",
+                    "passed": true
+                },
+                {
+                    "matcherName": "toBe",
+                    "message": "Passed.",
+                    "stack": "",
+                    "passed": true
+                },
+                {
+                    "matcherName": "toBe",
+                    "message": "Passed.",
+                    "stack": "",
+                    "passed": true
+                },
+                {
+                    "matcherName": "toBe",
+                    "message": "Passed.",
+                    "stack": "",
+                    "passed": true
+                }
+            ],
+            "pendingReason": "",
+            "status": "passed",
+            "stoped": "2017-03-04T05:04:30.302Z",
+            "started": "2017-03-04T05:04:30.302Z"
+        },
+        {
+            "id": "spec2",
+            "description": "should pass",
+            "fullName": "Samples 2 should pass",
+            "failedExpectations": [],
+            "passedExpectations": [
+                {
+                    "matcherName": "toBe",
+                    "message": "Passed.",
+                    "stack": "",
+                    "passed": true
+                },
+                {
+                    "matcherName": "toBe",
+                    "message": "Passed.",
+                    "stack": "",
+                    "passed": true
+                },
+                {
+                    "matcherName": "toBe",
+                    "message": "Passed.",
+                    "stack": "",
+                    "passed": true
+                },
+                {
+                    "matcherName": "toBe",
+                    "message": "Passed.",
+                    "stack": "",
+                    "passed": true
+                }
+            ],
+            "pendingReason": "",
+            "status": "passed",
+            "stoped": "2017-03-04T05:04:30.303Z",
+            "started": "2017-03-04T05:04:30.303Z"
+        },
+        {
+            "id": "spec3",
+            "description": "should ignore",
+            "fullName": "Samples 2 should ignore",
+            "failedExpectations": [],
+            "passedExpectations": [],
+            "pendingReason": "Temporarily disabled with xit",
+            "status": "pending",
+            "stoped": "2017-03-04T05:04:30.303Z",
+            "started": "2017-03-04T05:04:30.303Z"
+        },
+        {
+            "id": "spec4",
+            "description": "should pass",
+            "fullName": "Samples 2 and sub samples should pass",
+            "failedExpectations": [],
+            "passedExpectations": [
+                {
+                    "matcherName": "toBe",
+                    "message": "Passed.",
+                    "stack": "",
+                    "passed": true
+                },
+                {
+                    "matcherName": "toBe",
+                    "message": "Passed.",
+                    "stack": "",
+                    "passed": true
+                },
+                {
+                    "matcherName": "toBe",
+                    "message": "Passed.",
+                    "stack": "",
+                    "passed": true
+                },
+                {
+                    "matcherName": "toBe",
+                    "message": "Passed.",
+                    "stack": "",
+                    "passed": true
+                }
+            ],
+            "pendingReason": "",
+            "status": "passed",
+            "stoped": "2017-03-04T05:04:30.303Z",
+            "started": "2017-03-04T05:04:30.303Z"
+        },
+        {
+            "id": "spec5",
+            "description": "should pass",
+            "fullName": "Samples 3 should pass",
+            "failedExpectations": [],
+            "passedExpectations": [
+                {
+                    "matcherName": "toBe",
+                    "message": "Passed.",
+                    "stack": "",
+                    "passed": true
+                },
+                {
+                    "matcherName": "toBe",
+                    "message": "Passed.",
+                    "stack": "",
+                    "passed": true
+                },
+                {
+                    "matcherName": "toBe",
+                    "message": "Passed.",
+                    "stack": "",
+                    "passed": true
+                },
+                {
+                    "matcherName": "toBe",
+                    "message": "Passed.",
+                    "stack": "",
+                    "passed": true
+                }
+            ],
+            "pendingReason": "",
+            "status": "passed",
+            "stoped": "2017-03-04T05:04:30.304Z",
+            "started": "2017-03-04T05:04:30.304Z"
+        },
+        {
+            "id": "spec6",
+            "description": "should pass",
+            "fullName": "Samples 3 and sub samples should pass",
+            "failedExpectations": [],
+            "passedExpectations": [
+                {
+                    "matcherName": "toBe",
+                    "message": "Passed.",
+                    "stack": "",
+                    "passed": true
+                },
+                {
+                    "matcherName": "toBe",
+                    "message": "Passed.",
+                    "stack": "",
+                    "passed": true
+                },
+                {
+                    "matcherName": "toBe",
+                    "message": "Passed.",
+                    "stack": "",
+                    "passed": true
+                },
+                {
+                    "matcherName": "toBe",
+                    "message": "Passed.",
+                    "stack": "",
+                    "passed": true
+                }
+            ],
+            "pendingReason": "",
+            "status": "passed",
+            "stoped": "2017-03-04T05:04:30.305Z",
+            "started": "2017-03-04T05:04:30.305Z"
+        },
+        {
+            "id": "spec7",
+            "description": "should pass",
+            "fullName": "Samples 3 and sub Samples should pass",
+            "failedExpectations": [],
+            "passedExpectations": [
+                {
+                    "matcherName": "toBe",
+                    "message": "Passed.",
+                    "stack": "",
+                    "passed": true
+                },
+                {
+                    "matcherName": "toBe",
+                    "message": "Passed.",
+                    "stack": "",
+                    "passed": true
+                },
+                {
+                    "matcherName": "toBe",
+                    "message": "Passed.",
+                    "stack": "",
+                    "passed": true
+                },
+                {
+                    "matcherName": "toBe",
+                    "message": "Passed.",
+                    "stack": "",
+                    "passed": true
+                }
+            ],
+            "pendingReason": "",
+            "status": "passed",
+            "stoped": "2017-03-04T05:04:30.306Z",
+            "started": "2017-03-04T05:04:30.306Z"
+        },
+        {
+            "id": "spec8",
+            "description": "should pass",
+            "fullName": "Samples 3 and sub Samples and sub samples should pass",
+            "failedExpectations": [],
+            "passedExpectations": [
+                {
+                    "matcherName": "toBe",
+                    "message": "Passed.",
+                    "stack": "",
+                    "passed": true
+                },
+                {
+                    "matcherName": "toBe",
+                    "message": "Passed.",
+                    "stack": "",
+                    "passed": true
+                },
+                {
+                    "matcherName": "toBe",
+                    "message": "Passed.",
+                    "stack": "",
+                    "passed": true
+                },
+                {
+                    "matcherName": "toBe",
+                    "message": "Passed.",
+                    "stack": "",
+                    "passed": true
+                }
+            ],
+            "pendingReason": "",
+            "status": "passed",
+            "stoped": "2017-03-04T05:04:30.306Z",
+            "started": "2017-03-04T05:04:30.306Z"
+        }
+    ],
+    "counts": {
+        "passed": 8,
+        "pending": 1
+    }
+});
+</script>
+
+<script type="text/ng-template" id="dialog.html">
+    <md-dialog aria-label="" flex="90">
+        <md-toolbar ng-class="activeItem.cssClass">
+            <div class="md-toolbar-tools">Test Information</div>
+        </md-toolbar>
+        <md-dialog-content>
+            <md-subheader ng-if="activeItem.failedExpectations.length > 0">Stack Traces</md-subheader>
+            <md-content ng-repeat="failure in activeItem.failedExpectations">
+                <small>
+                    <pre>{{failure.stack}}</pre>
+                </small>
+            </md-content>
+            <md-subheader ng-if="activeItem.passedExpectations.length > 0">Passed Expectations</md-subheader>
+            <pre ng-repeat="pass in activeItem.passedExpectations">{{pass | json}}</pre>
+        </md-dialog-content>
+    </md-dialog>
+</script>
+
+</body>
+</html>
