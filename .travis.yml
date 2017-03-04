@@ -13,8 +13,8 @@ before_script:
 script:
   - npm version patch -m "[CHORE] Bump Version %s [skip ci]"
 before_deploy:
-  - git push https://$TAGPERM@github.com/stuisme/jasmine-pretty-html-reporter master
-  - git push https://$TAGPERM@github.com/stuisme/jasmine-pretty-html-reporter --tags
+  - git push https://$GIT_TOKEN@github.com/stuisme/jasmine-pretty-html-reporter master
+  - git push https://$GIT_TOKEN@github.com/stuisme/jasmine-pretty-html-reporter --tags
   - ls -R
 deploy:
   provider: npm
