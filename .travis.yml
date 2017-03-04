@@ -7,21 +7,17 @@ branches:
 git:
   branch: master
 before_script:
-  - export NEW_VERSION=0.1.$TRAVIS_BUILD_NUMBER
   - git config --global user.email "builds@travis-ci.com"
   - git config --global user.name "Travis CI"
   - git checkout master
 script:
-  - npm version $NEW_VERSION
+  - npm version patch -m "[CHORE] Bump Version to %s [skip ci]"
 before_deploy:
-  - export GIT_TAG=v$NEW_VERSION
-  - git commit --amend -m "[CHORE] Bump Version $NEW_VERSION [skip ci]"
   - git push https://$TAGPERM@github.com/stuisme/jasmine-pretty-html-reporter master
   - git push https://$TAGPERM@github.com/stuisme/jasmine-pretty-html-reporter --tags
   - ls -R
 deploy:
   provider: npm
-  email: stuisme@gmail.com
   api_key: $NPM_TOKEN
   on:
     tags: false
