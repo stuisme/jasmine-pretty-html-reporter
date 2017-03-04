@@ -1,4 +1,4 @@
-# jasmine pretty html reporter
+# jasmine pretty html reporter [![Build Status](https://travis-ci.org/stuisme/jasmine-pretty-html-reporter.svg?branch=master)](https://travis-ci.org/stuisme/jasmine-pretty-html-reporter)
 
 ```
 npm i jasmine-pretty-html-reporter --save-dev
@@ -22,5 +22,3 @@ jasmine.addReporter(new HtmlReporter({
 
 jasmine.execute();
 ```
-
-### Results
