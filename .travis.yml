@@ -17,7 +17,6 @@ before_deploy:
   - export GIT_TAG=v$NEW_VERSION
   - git commit --amend -m "[CHORE] Bump Version $NEW_VERSION [skip ci]"
   - git push https://$TAGPERM@github.com/stuisme/jasmine-pretty-html-reporter master
-  - git tag $GIT_TAG -m "[CHORE] Tag build $TRAVIS_BUILD_NUMBER [skip ci]"
   - git push https://$TAGPERM@github.com/stuisme/jasmine-pretty-html-reporter --tags
   - ls -R
 deploy:
