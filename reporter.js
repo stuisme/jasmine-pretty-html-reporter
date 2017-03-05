@@ -14,6 +14,7 @@ class Reporter {
         this.options = options;
         this._sequence = [];
         this._counts = {};
+        this._timer = {};
 
         if (!fs.existsSync(this.options.path)) {
             fs.mkdirSync(this.options.path);
@@ -27,6 +28,7 @@ class Reporter {
     }
 
     jasmineStarted(suiteInfo) {
+        this._timer.jasmineStart = this.nowString();
     };
 
     suiteStarted(result) {
@@ -41,21 +43,27 @@ class Reporter {
         result.started = this._start;
         this._sequence.push(result);
         this._counts[result.status] = (this._counts[result.status] || 0) + 1;
-
-        let logEntry = {
-            sequence: this._sequence,
-            counts: this._counts
-        };
-
-        let results = fileContents.replace('\'<Results Replacement>\'', JSON.stringify(logEntry, null, 4));
-        fs.writeFileSync(this.destination, results, 'utf8');
+        this.writeFile();
     };
 
     suiteDone(result) {
     };
 
     jasmineDone() {
+      this._timer.jasmineDone = this.nowString();
+      this.writeFile();
     };
+
+    writeFile(){
+      let logEntry = {
+        timer: this._timer,
+        sequence: this._sequence,
+        counts: this._counts
+      };
+
+      let results = fileContents.replace('\'<Results Replacement>\'', JSON.stringify(logEntry, null, 4));
+      fs.writeFileSync(this.destination, results, 'utf8');
+    }
 }
 
 module.exports = Reporter;

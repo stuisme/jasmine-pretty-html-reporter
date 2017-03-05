@@ -32,10 +32,16 @@
 <div ng-cloak layout="column">
     <md-toolbar ng-class="{'md-warn': results.counts.failed}">
         <div class="md-toolbar-tools">
-            <h2 flex md-truncate>Results</h2>
-            <h5>
-                {{results.counts | json}}
-            </h5>
+            <h2 flex md-truncate>Results <small ng-if="runTime"> - executed in {{runTime}} ms</small></h2>
+            <h6>
+                <span ng-if="results.counts.passed">Passed: {{results.counts.passed}}</span>
+                <br ng-if="results.counts.passed" />
+
+                <span ng-if="results.counts.pending">Pending: {{results.counts.pending}}</span>
+                <br ng-if="results.counts.pending" />
+
+                <span ng-if="results.counts.failed">Failed: {{results.counts.failed}}</span>
+            </h6>
         </div>
     </md-toolbar>
     <md-content flex>
@@ -94,6 +100,7 @@
         };
 
         $scope.results = results;
+        $scope.runTime = new Date(results.timer.jasmineDone) - new Date(results.timer.jasmineStart);
 
         //transform results
         $scope.results.sequence.forEach(function (item) {
