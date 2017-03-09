@@ -130,9 +130,14 @@
         <md-dialog-content>
             <md-subheader ng-if="activeItem.failedExpectations.length > 0">Stack Traces</md-subheader>
             <md-content ng-repeat="failure in activeItem.failedExpectations">
-                <small>
-                    <pre>{{failure.stack}}</pre>
-                </small>
+                <div flex layout="column" layout-padding ng-repeat="failure in activeItem.failedExpectations">
+                    <div flex>
+                        <p>{{failure.message}}</p>
+                        <small>
+                            <pre>{{failure.stack}}</pre>
+                        </small>
+                    </div>
+                </div>
             </md-content>
             <md-subheader ng-if="activeItem.passedExpectations.length > 0">Passed Expectations</md-subheader>
             <pre ng-repeat="pass in activeItem.passedExpectations">{{pass | json}}</pre>
