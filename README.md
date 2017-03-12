@@ -30,3 +30,11 @@ jasmine.addReporter(new HtmlReporter({
 
 jasmine.execute();
 ```
+
+#### Reporter Options
+| Name                  | Type    | Default | Description                                            |
+| --------------------- | ------- | ------- | ------------------------------------------------------ |
+| path                  | String  |         | path the report.html will be written to (required)     |
+| writeReportEachSpec   | Boolean | true    | writes the report.html after each spec completes, this is recommended for long running tests |
+| showSuspectLine       | Boolean | true    | shows "suspect line" on overview                       |
+| highlightSuspectLine  | Boolean | true    | highlight the "suspect line" in the dialog             |

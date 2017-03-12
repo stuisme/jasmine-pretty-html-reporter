@@ -25,6 +25,17 @@
         .pending .status {
             background-color: rgb(255, 255, 0);
         }
+
+
+        /* stack traces */
+        pre {
+            margin:0;
+        }
+
+        .stack.highlight {
+            background-color: yellow;
+        }
+
     </style>
 </head>
 <body ng-controller="ResultsCtrl">
@@ -56,8 +67,13 @@
                         <div ng-if="result.pendingReason != ''">
                             <small>{{result.pendingReason}}</small>
                         </div>
-                        <div ng-if="result.suspectLine">
-                            <small>{{result.suspectLine}}</small>
+                        <div ng-repeat="failure in result.failedExpectations" ng-show="failure.hasSuspectLine">
+                            <small>
+                                <span>{{failure.message}}</span>
+                                <div ng-if="results.options.showSuspectLine">
+                                    <pre>{{failure.suspectLine}}</pre>
+                                </div>
+                            </small>
                         </div>
                     </div>
                     <div flex="none" style="width: 100px">
@@ -102,39 +118,26 @@
         $scope.results = results;
         $scope.runTime = new Date(results.timer.jasmineDone) - new Date(results.timer.jasmineStart);
 
-        //transform results
-        $scope.results.sequence.forEach(function (item) {
-            item.prefix = item.fullName.replace(item.description, '');
-            item.duration = new Date(item.stoped) - new Date(item.started);
-            item.cssClass = classes[item.status];
-            if (item.status === 'failed') {
-                item.failedExpectations[0].stack.split('\n').some(function (line) {
-                    var match = line.indexOf('Error:') === -1 && line.indexOf('node_modules') === -1;
+        $scope.getCssClass = function(item){
+            return classes[item.status];
+        };
 
-                    if (match) {
-                        item.suspectLine = line;
-                    }
-
-                    return match;
-                })
-            }
-        });
     }).constant('results', '<Results Replacement>');
 </script>
 
 <script type="text/ng-template" id="dialog.html">
     <md-dialog aria-label="" flex="90">
-        <md-toolbar ng-class="activeItem.cssClass">
+        <md-toolbar ng-class="getCssClass(activeItem)">
             <div class="md-toolbar-tools">Test Information</div>
         </md-toolbar>
         <md-dialog-content>
             <md-subheader ng-if="activeItem.failedExpectations.length > 0">Stack Traces</md-subheader>
-            <md-content ng-repeat="failure in activeItem.failedExpectations">
+            <md-content>
                 <div flex layout="column" layout-padding ng-repeat="failure in activeItem.failedExpectations">
                     <div flex>
                         <p>{{failure.message}}</p>
                         <small>
-                            <pre>{{failure.stack}}</pre>
+                            <pre class="stack" ng-class="{'highlight': (results.options.highlightSuspectLine && line === failure.suspectLine) }" ng-repeat="line in failure.stack.split('\n')">{{line}}</pre>
                         </small>
                     </div>
                 </div>
