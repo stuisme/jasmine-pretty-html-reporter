@@ -19,6 +19,7 @@ https://stuisme.github.io/jasmine-pretty-html-reporter/
 ```
 var Jasmine = require('jasmine');
 var HtmlReporter = require('jasmine-pretty-html-reporter').Reporter;
+var path = require('path');
 var jasmine = new Jasmine();
 
 jasmine.loadConfigFile('./spec/support/jasmine.json');
